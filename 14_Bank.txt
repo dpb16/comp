@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity ^0.8.0;
+contract bank{
+    
+    uint balance = 0;
+    address public accHolder;
+
+    constructor(){
+        accHolder = msg.sender;
+    }
+
+    function deposit() public payable {
+        require(msg.value > 0, "amount should be greater than 0" ); 
+
+        require(msg.sender == accHolder, "Youu are not the account holde");
+        balance += msg.value;
+    }
+    
+    function withdrawl() public payable{
+        require(balance > 0, "Account dosent have enough balance");
+        require(msg.sender == accHolder, "Youu are not the account holde");
+        payable(msg.sender).transfer(balance);
+        balance = 0;
+    }
+
+    function showDeopsit() public view returns(uint){
+        require(msg.sender == accHolder, "Youu are not the account holde");
+        return balance;
+    }
+}
